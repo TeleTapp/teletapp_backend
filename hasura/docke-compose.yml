@@ -1,0 +1,29 @@
+version: '3.6'
+services:
+  graphql:
+    image: hasura/graphql-engine:v2.37.1
+    restart: unless-stopped
+    env_file: .env
+    container_name: hasura-graphql
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./migrations:/hasura-migrations:ro
+      - ./metadata:/hasura-metadata:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.hasura-graphql.entrypoints=http"
+      - "traefik.http.routers.hasura-graphql.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.middlewares.hasura-graphql-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.hasura-graphql.middlewares=hasura-graphql-https-redirect"
+      - "traefik.http.routers.hasura-graphql-secure.entrypoints=https"
+      - "traefik.http.routers.hasura-graphql-secure.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.hasura-graphql-secure.tls=true"
+      - "traefik.http.routers.hasura-graphql-secure.tls.certresolver=http"
+      - "traefik.http.routers.hasura-graphql-secure.service=hasura-graphql"
+      - "traefik.http.services.hasura-graphql.loadbalancer.server.port=8080"
+    networks:
+      - net
+
+networks:
+  net:
+    external: true

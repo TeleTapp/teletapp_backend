@@ -1,0 +1,10 @@
+table:
+  name: defined_categories
+  schema: public
+object_relationships:
+  - name: directusUserByUserUpdated
+    using:
+      foreign_key_constraint_on: user_updated
+  - name: directus_user
+    using:
+      foreign_key_constraint_on: user_created

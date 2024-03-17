@@ -1,0 +1,18 @@
+table:
+  name: categories
+  schema: public
+object_relationships:
+  - name: directusUserByUserUpdated
+    using:
+      foreign_key_constraint_on: user_updated
+  - name: directus_user
+    using:
+      foreign_key_constraint_on: user_created
+array_relationships:
+  - name: products
+    using:
+      foreign_key_constraint_on:
+        column: category_id
+        table:
+          name: products
+          schema: public

@@ -1,0 +1,10 @@
+table:
+  name: settings
+  schema: public
+object_relationships:
+  - name: created_by
+    using:
+      foreign_key_constraint_on: user_created
+  - name: updated_by
+    using:
+      foreign_key_constraint_on: user_updated

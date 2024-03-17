@@ -1,0 +1,24 @@
+table:
+  name: bots
+  schema: public
+object_relationships:
+  - name: created_by
+    using:
+      foreign_key_constraint_on: user_created
+  - name: directus_file
+    using:
+      foreign_key_constraint_on: description_image
+  - name: directus_user
+    using:
+      foreign_key_constraint_on: onwer_id
+  - name: updated_by
+    using:
+      foreign_key_constraint_on: user_updated
+array_relationships:
+  - name: categories
+    using:
+      foreign_key_constraint_on:
+        column: bot
+        table:
+          name: categories
+          schema: public
